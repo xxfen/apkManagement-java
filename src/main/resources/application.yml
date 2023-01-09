@@ -1,0 +1,65 @@
+
+spring:
+  datasource:
+# GMT%2B8
+    url: jdbc:mysql://localhost:3306/apkManagement?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+#    url: jdbc:mysql://localhost:3306/apkManagement?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: xxfen123456          #本地
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jmx:
+    enabled: false
+  servlet:
+    multipart:
+      max-file-size: 2MB
+  redis:
+        database: 0
+        host: localhost
+        port: 6379
+        password: xxfen123456a
+        jedis:
+          pool:
+            max-active: 1000
+            max-wait: -1ms
+            max-idle: 16
+            min-idle: 8
+  jackson:
+          time-zone: GMT+8
+
+server:
+  port: 8090
+#mybatis:
+#  mapper-locations: classpath:mapperXml/*.xml
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.xxf.apkmanagement.db.pojo
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    root: info
+    com.xxf.apkmanagement.db.dao: warn
+  pattern:
+    console: "%d{yyyy/MM/dd HH:mm:ss}  %-5level  %msg%n"
+#指定接口包扫描
+springdoc:
+  packagesToScan: com.xxf.apkmanagement.controller
+
+sa-token:
+  #token名称 (同时也是cookie名称)
+  token-name: token
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 2592000
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  allow-concurrent-login: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # token风格
+  token-style: uuid
+
+system-params:
+  root-local-path: C:\Users\xxf\Desktop\安装包管理系统             #本地
+# root-local-path: /usr/local/apkfile             #fwq

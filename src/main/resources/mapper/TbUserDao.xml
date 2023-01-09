@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxf.apkmanagement.db.dao.TbUserDao">
+    <select id="searchAllUser" resultType="com.xxf.apkmanagement.db.model.UserListModel" parameterType="int">
+        SELECT id,userName,creationTime
+        FROM tb_user
+        WHERE companyId = #{companyId}
+    </select>
+    <select id="searchUserById" resultType="java.util.HashMap" parameterType="int">
+        SELECT id,userName,companyId
+        FROM tb_user
+        WHERE id = #{userId}
+        LIMIT 1;
+    </select>
+    <select id="getRole" parameterType="integer" resultType="java.lang.Boolean">
+        SELECT root
+        FROM tb_user
+        WHERE id=#{userId}
+        LIMIT 1;
+    </select>
+    <select id="login" parameterType="hashmap" resultType="java.lang.Integer">
+        SELECT id
+        FROM tb_user
+        WHERE userName = #{userName}
+        AND userPassword = HEX(AES_ENCRYPT(#{userPassword}, #{userName}))
+        LIMIT 1;
+    </select>
+    <select id="searchUserByName" resultType="com.xxf.apkmanagement.db.pojo.TbUser">
+        SELECT *
+        FROM tb_user
+        WHERE userName=#{name}
+        LIMIT 1;
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.xxf.apkmanagement.db.pojo.TbUser">
+        INSERT INTO tb_user
+        SET
+        <if test="userName!=null">
+            userName=#{userName},
+        </if>
+        <if test="userPassword!=null">
+            userPassword = HEX(AES_ENCRYPT(#{userPassword},#{userName})),
+        </if>
+        <if test="companyId!=0">
+            companyId=#{companyId},
+        </if>
+        <if test="phone!=null">
+            phone = #{phone},
+        </if>
+        root=#{root}
+    </insert>
+
+</mapper>

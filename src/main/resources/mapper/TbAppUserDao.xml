@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxf.apkmanagement.db.dao.TbAppUserDao">
+
+    <insert id="insertAppUser"  useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO tb_app_user
+        SET
+        <if test="appPackage!=null">
+            appPackage=#{appPackage},
+        </if>
+        <if test="appUserName!=null">
+            appUserName=#{appUserName}
+        </if>
+    </insert>
+    <select id="searchAppUserByUserName" resultType="com.xxf.apkmanagement.db.pojo.TbAppUser">
+        SELECT *
+        FROM tb_app_user
+        WHERE appPackage=#{appPackage} and appUserName=#{appUserName}
+    </select>
+</mapper>

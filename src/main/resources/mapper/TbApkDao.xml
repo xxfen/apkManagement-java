@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxf.apkmanagement.db.dao.TbApkDao">
+    <insert id="insert" parameterType="com.xxf.apkmanagement.db.pojo.TbApk">
+        INSERT INTO tb_apk
+        SET
+        <if test="appPackage!=null">
+            appPackage=#{appPackage},
+        </if>
+        <if test="vName!=null">
+            vName=#{vName},
+        </if>
+        forcedUpdating=#{forcedUpdating},
+        <if test="vCode!=0">
+            vCode=#{vCode},
+        </if>
+        <if test="apkPath!=null">
+            apkPath=#{apkPath},
+        </if>
+        <if test="content!=null">
+            content=#{content},
+        </if>
+        <if test="fileSize!=null">
+            fileSize=#{fileSize}
+        </if>
+    </insert>
+
+    <select id="searchApkCountByUserId" resultType="java.lang.Integer" parameterType="int">
+        SELECT
+        COUNT(*)
+        FROM tb_apk
+        WHERE find_in_set(
+        appPackage,
+        (
+        SELECT
+        GROUP_CONCAT("",ap.appPackage,"")
+        FROM tb_application ap
+        WHERE userId=#{userId}
+        )
+        )
+    </select>
+    <select id="searchApkByAppPackageName" resultType="com.xxf.apkmanagement.db.model.ApkListModel">
+        SELECT tb_apk.*,a.appName,a.userId
+        FROM tb_apk
+        JOIN tb_application a ON tb_apk.appPackage = a.appPackage
+        WHERE a.appPackage=#{appPackage}
+        LIMIT #{start}, #{length}
+    </select>
+    <select id="searchApkById" resultType="com.xxf.apkmanagement.db.model.AppApkModel">
+        SELECT tb_apk.*,a.appName,a.userId,c.companyName,a.id apkId
+        FROM tb_apk
+        JOIN tb_application a ON tb_apk.appPackage = a.appPackage
+        JOIN tb_company c ON  a.companyId=c.id
+        WHERE tb_apk.id=#{id}
+        LIMIT 1;
+    </select>
+    <select id="searchApkByAppCountPackageName" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM tb_apk
+        JOIN tb_application a ON tb_apk.appPackage = a.appPackage
+        WHERE a.appPackage=#{packageName}
+    </select>
+</mapper>

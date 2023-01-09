@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxf.apkmanagement.db.dao.TbLinkDao">
+    <insert id="insertLink">
+        INSERT INTO tb_link
+        SET
+        <if test="userId!=0">
+            userId=#{userId},
+        </if>
+        <if test="apkId!=0">
+            apkId=#{apkId},
+        </if>
+        <if test="deadTime!=null">
+            deadTime=#{deadTime},
+        </if>
+        <if test="disabledCount!=0">
+            disabledCount=#{disabledCount},
+        </if>
+        <if test="link!=null">
+            link=#{link}
+        </if>
+
+    </insert>
+    <update id="updateLink" parameterType="hashmap">
+        UPDATE tb_link
+        SET
+        <if test="disabled!=null">
+            disabled=#{disabled}
+        </if>
+        <if test="disabled!=null and count!=null">
+            ,
+        </if>
+        <if test="count!=null">
+           count=#{count}
+        </if>
+        where id=#{id}
+    </update>
+
+    <select id="searchLinkCount" resultType="java.lang.Integer" parameterType="hashmap">
+        SELECT count(*)
+        FROM tb_link
+        WHERE userId=#{userId} and disabled=#{disabled}
+    </select>
+    <select id="searchLinks" resultType="com.xxf.apkmanagement.db.model.LinkListModel" parameterType="hashmap">
+        SELECT aa.*,b.appName,aa.appPackage
+        FROM
+        (SELECT l.*,a.vName,a.vCode,a.appPackage
+        FROM tb_link l
+        JOIN tb_apk a ON l.apkId = a.id) aa
+        JOIN tb_application b ON aa.appPackage=b.appPackage
+        WHERE  aa.userId=#{userId}
+        and (b.appName like "%"#{keyword}"%" or #{keyword}=null or #{keyword}="")
+        LIMIT #{start}, #{length}
+    </select>
+    <select id="searchLinkByApkId" resultType="com.xxf.apkmanagement.db.pojo.TbLink" parameterType="hashmap">
+        SELECT *
+        FROM tb_link
+        WHERE apkId=#{apkId}
+         and (disabled=null or disabled=#{disabled})
+    </select>
+    <select id="searchLinkByLink" resultType="com.xxf.apkmanagement.db.pojo.TbLink">
+        SELECT *
+        FROM tb_link
+        WHERE link=#{link}
+        LIMIT 1;
+    </select>
+    <select id="searchLinkCountByUserId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM (
+        SELECT aa.id
+        FROM
+        (SELECT l.*,a.vName,a.vCode,a.appPackage
+        FROM tb_link l
+        JOIN tb_apk a ON l.apkId = a.id) aa
+        JOIN tb_application b ON aa.appPackage=b.appPackage
+        WHERE  aa.userId=#{userId}
+        and (b.appName like "%"#{keyword}"%" or #{keyword}=null or #{keyword}="")
+        ) tep
+    </select>
+</mapper>

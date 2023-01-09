@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxf.apkmanagement.db.dao.TbApplicationDao">
+    <insert id="insert" parameterType="com.xxf.apkmanagement.db.pojo.TbApplication">
+        INSERT INTO tb_application
+        SET
+        <if test="appPackage!=null">
+            appPackage=#{appPackage},
+        </if>
+        <if test="appName!=null">
+            appName=#{appName},
+        </if>
+        <if test="companyId!=0">
+            companyId=#{companyId},
+        </if>
+        <if test="userId!=0">
+            userId=#{userId}
+        </if>
+    </insert>
+    <select id="searchSelfApps" parameterType="java.util.HashMap"
+            resultType="com.xxf.apkmanagement.db.model.AppApkModel">
+        SELECT app.id,app.appPackage,app.appName,app.companyId,app.userId,app.creationTime,apk.vCode,apk.vName,apk.fileSize,apk.forcedUpdating
+        FROM tb_application app
+        JOIN
+        tb_apk apk
+        on app.appPackage = apk.appPackage
+        WHERE app.userId=#{userId}
+        and app.appName like "%"#{keyword}"%" and apk.vCode=(select max(m.vCode) from tb_apk m where app.appPackage=m.appPackage)
+        LIMIT #{start}, #{length}
+    </select>
+    <select id="searchCompanyApps" parameterType="java.util.HashMap"
+            resultType="com.xxf.apkmanagement.db.model.AppApkModel">
+        SELECT app.id,app.appPackage,app.appName,app.companyId,app.userId,app.creationTime,apk.vCode,apk.vName,apk.fileSize,apk.forcedUpdating
+        FROM tb_application app
+        JOIN
+        tb_apk apk
+        on app.appPackage = apk.appPackage
+        WHERE app.companyId=#{companyId}
+        and app.appName like "%"#{keyword}"%" and apk.vCode=(select max(m.vCode) from tb_apk m where app.appPackage=m.appPackage)
+        LIMIT #{start}, #{length};
+    </select>
+    <select id="searchAppCountByUserId" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM tb_application
+        WHERE userId=#{userId}
+        and (#{keyword}=null or  #{keyword}="" or appName like "%${keyword}%")
+    </select>
+    <select id="searchAppByPackage" resultType="java.util.HashMap" parameterType="string">
+        SELECT *
+        FROM tb_application
+        WHERE appPackage=#{appPackage}
+        LIMIT 1;
+    </select>
+    <select id="searchAppById" resultType="java.util.HashMap" parameterType="int">
+        SELECT *
+        FROM tb_application
+        WHERE id=#{id}
+        LIMIT 1;
+    </select>
+    <select id="searchAppApkById" resultType="com.xxf.apkmanagement.db.model.AppApkModel">
+        SELECT apk.id,a.appPackage,a.appName,a.companyId,a.userId,a.creationTime,apk.vCode,apk.vName,apk.fileSize,apk.forcedUpdating,a.id apkId
+        FROM tb_application a
+        JOIN tb_apk apk ON a.appPackage = apk.appPackage
+        WHERE a.id=#{id}
+        and apk.vCode=(select max(m.vCode) from tb_apk m where a.appPackage=m.appPackage);
+    </select>
+    <select id="searchAppApkByAppPackage" resultType="com.xxf.apkmanagement.db.model.AppApkModel">
+        SELECT apk.id,a.appPackage,a.appName,a.companyId,a.userId,a.creationTime,apk.vCode,apk.vName,apk.fileSize,apk.forcedUpdating,apk.content
+        FROM tb_application a
+        JOIN tb_apk apk ON a.appPackage = apk.appPackage
+        WHERE a.appPackage=#{appPackage}
+        and apk.vCode=(select max(m.vCode) from tb_apk m where a.appPackage=m.appPackage);
+    </select>
+    <select id="searchAppCountByCompanyId" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM tb_application
+        WHERE companyId=#{companyId}
+        and (#{keyword}=null or  #{keyword}="" or appName like "%${keyword}%")
+    </select>
+</mapper>

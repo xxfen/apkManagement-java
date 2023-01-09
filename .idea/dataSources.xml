@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="apkmanagement@localhost" uuid="8295f45e-8139-4e5a-8b3c-21a119e0258b">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/apkmanagement</jdbc-url>
+      <driver-properties>
+        <property name="autoReconnect" value="true" />
+      </driver-properties>
+    </data-source>
+  </component>
+</project>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxf.apkmanagement.db.dao.TbDownloadStatisticsDao">
+
+    <insert id="insertDownloadStatistics" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO tb_download_statistics
+        SET appUserId=#{appUserId}, apkId=#{apkId}
+    </insert>
+    <update id="updateDownloadStatistics">
+        UPDATE tb_download_statistics
+        SET
+        <if test="count!=0">
+            count=#{count}
+        </if>
+        where appUserId=#{appUserId} and apkId=#{apkId} and count=#{count}-1
+    </update>
+    <select id="searchDownloadStatistics" resultType="com.xxf.apkmanagement.db.pojo.TbDownloadStatistics">
+        SELECT *
+        FROM tb_download_statistics
+        WHERE appUserId=#{appUserId} and apkId=#{apkId}
+    </select>
+</mapper>
