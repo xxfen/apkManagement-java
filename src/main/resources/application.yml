@@ -2,16 +2,15 @@
 spring:
   datasource:
 # GMT%2B8
-    url: jdbc:mysql://localhost:3306/apkManagement?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/apkmanagement?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
 #    url: jdbc:mysql://localhost:3306/apkManagement?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: xxfen123456          #本地
+#    username: root
+    username: apkmanagement
+#    password: xxfen123456          #本地
+    password: xxfen123456a          #fwq
     driver-class-name: com.mysql.cj.jdbc.Driver
   jmx:
     enabled: false
-  servlet:
-    multipart:
-      max-file-size: 2MB
   redis:
         database: 0
         host: localhost
@@ -25,9 +24,15 @@ spring:
             min-idle: 8
   jackson:
           time-zone: GMT+8
-
+  servlet:
+    multipart:
+      maxFileSize: 20MB #单个文件最大为20M
+      maxRequestSize: 50MB #单次请求文件总数大小为20M
 server:
   port: 8090
+  tomcat:
+    max-http-post-size: 20MB
+    max-swallow-size: 100MB
 #mybatis:
 #  mapper-locations: classpath:mapperXml/*.xml
 mybatis:
@@ -61,5 +66,5 @@ sa-token:
   token-style: uuid
 
 system-params:
-  root-local-path: C:\Users\xxf\Desktop\安装包管理系统             #本地
-# root-local-path: /usr/local/apkfile             #fwq
+#  root-local-path: C:\Users\xxf\Desktop\安装包管理系统             #本地
+ root-local-path: /usr/local/apkfile             #fwq

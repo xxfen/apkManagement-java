@@ -94,6 +94,7 @@ public class AppController {
     @SaCheckLogin
     @ResponseBody
     public R uploadingApp(@Valid UploadingAppForm form, @Valid @NonNull MultipartFile apk) {
+        logger.info("--------------上传应用");
         int userId = Integer.parseInt(StpUtil.getLoginId().toString());
         HashMap hashMap = userService.searchUserById(userId);
         int companyId = (int) hashMap.get("companyId");
@@ -104,6 +105,7 @@ public class AppController {
         logger.info(form.getContent());
         String companyPath = rootLocalPath + filePath;
         String temporary = companyPath + "temporary/";
+        logger.info(temporary);
         File dir = new File(temporary);
         if (!dir.exists() && !dir.isDirectory()) {
             dir.mkdirs();

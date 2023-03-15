@@ -10,11 +10,16 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+
         registry.addMapping("/**")
                 .allowedOrigins("*")
-                .allowCredentials(true)
+//                .allowedOriginPatterns("*")// 设置允许跨域请求的域名
+                .allowedHeaders("*")// 设置允许的请求头
+                .allowCredentials(true)// 是否允许证书
                 .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH")
-                .maxAge(3600);
+//                .allowedMethods("*")// 允许的方法
+                .maxAge(3600);// 跨域允许时间
+
     }
 
 }
