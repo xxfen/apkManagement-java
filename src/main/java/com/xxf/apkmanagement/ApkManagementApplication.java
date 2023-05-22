@@ -41,4 +41,9 @@ public class ApkManagementApplication extends ServletInitializer {
         factory.setMaxRequestSize(DataSize.ofMegabytes(50000));
         return factory.createMultipartConfig();
     }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(ApkManagementApplication.class);
+    }
 }

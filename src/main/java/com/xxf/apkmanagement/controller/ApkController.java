@@ -289,12 +289,12 @@ public class ApkController {
 
                 /*保存应用文件及数据*/
                 //添加应用表
-                TbApplication tbApplication = new TbApplication();
+               /* TbApplication tbApplication = new TbApplication();
                 tbApplication.setAppName(apkMeta.getLabel());
                 tbApplication.setAppPackage(apkMeta.getPackageName());
                 tbApplication.setUserId(userId);
                 tbApplication.setCompanyId(companyId);
-                int insert = appService.insert(tbApplication);
+                int insert = appService.insert(tbApplication);*/
 
                 //保存apk文件
                 File fileSave = new File(companyPath + apkMeta.getPackageName() + "/");
