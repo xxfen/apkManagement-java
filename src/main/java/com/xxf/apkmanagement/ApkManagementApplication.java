@@ -36,7 +36,7 @@ public class ApkManagementApplication extends ServletInitializer {
         MultipartConfigFactory factory = new MultipartConfigFactory();
 //        factory.setLocation(uploadFolder);
         //单个文件大小
-        factory.setMaxFileSize(DataSize.ofMegabytes(10));
+        factory.setMaxFileSize(DataSize.ofMegabytes(20));
         //设置总上传数据大小
         factory.setMaxRequestSize(DataSize.ofMegabytes(50000));
         return factory.createMultipartConfig();

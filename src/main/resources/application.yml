@@ -4,10 +4,10 @@ spring:
 # GMT%2B8
     url: jdbc:mysql://localhost:3306/apkmanagement?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
 #    url: jdbc:mysql://localhost:3306/apkManagement?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=Asia/Shanghai
-#    username: root
-    username: apkmanagement
-#    password: xxfen123456          #本地
-    password: xxfen123456a          #fwq
+    username: root
+#    username: apkmanagement
+    password: xxfen123456          #本地
+#    password: xxfen123456a          #fwq
     driver-class-name: com.mysql.cj.jdbc.Driver
   jmx:
     enabled: false
@@ -66,5 +66,5 @@ sa-token:
   token-style: uuid
 
 system-params:
-#  root-local-path: C:\Users\xxf\Desktop\安装包管理系统             #本地
- root-local-path: /usr/local/apkfile             #fwq
+  root-local-path: C:\Users\xxf\Desktop\安装包管理系统             #本地
+# root-local-path: /usr/local/apkfile             #fwq

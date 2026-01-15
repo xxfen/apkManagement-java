@@ -22,10 +22,10 @@ public class GlobalExceptionHandler {
         String msg;
         if (ex.getCause().getCause() instanceof FileUploadBase.FileSizeLimitExceededException) {
             logger.error(ex.getMessage());
-            msg = "上传文件过大[单文件大小不得超过10M]";
+            msg = "上传文件过大[单文件大小不得超过20M]";
         } else if (ex.getCause().getCause() instanceof FileUploadBase.SizeLimitExceededException) {
             logger.error(ex.getMessage());
-            msg = "上传文件过大[总上传文件大小不得超过10M]";
+            msg = "上传文件过大[总上传文件大小不得超过20M]";
         } else {
             msg = "上传文件失败";
         }
